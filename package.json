@@ -1,0 +1,35 @@
+{
+  "name": "next-resend-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/server.ts",
+    "vercel-build": "npm run typeorm migration:run -- -d ./src/data-source"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "pg": "^8.11.0",
+    "pg-format": "^1.0.4",
+    "reflect-metadata": "^0.1.13",
+    "resend": "^3.3.0",
+    "typeorm": "^0.3.17",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20",
+    "@types/pg": "^8.10.2",
+    "@types/pg-format": "^1.0.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5"
+  },
+  "author": "",
+  "license": "ISC"
+}
