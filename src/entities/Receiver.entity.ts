@@ -11,7 +11,7 @@ export class Receiver {
     email: string;
 
     @Column({ length: 255 })
-    nome: string;
+    name: string;
 
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;
@@ -20,7 +20,7 @@ export class Receiver {
     update_date: Date;
 
     @OneToMany(() => CampaignReceiver, campaignReceiver => campaignReceiver.receiver)
-    campaignReceivers: CampaignReceiver[];
+    campaign_receivers: CampaignReceiver[];
 
     @OneToMany(() => Schedule, schedule => schedule.receiver)
     schedules: Schedule[];

@@ -7,7 +7,7 @@ export class Sender {
     id: number;
 
     @Column({ length: 255 })
-    nome: string;
+    name: string;
 
     @Column({ length: 255 })
     alias: string;

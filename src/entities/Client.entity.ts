@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Campaign } from "./Campaign.entity";
 
-@Entity("clientes")
+@Entity("clients")
 export class Client {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
     @Column({ length: 255 })
-    nome: string;
+    name: string;
 
     @Column({ type: "boolean", default: true })
     status: boolean;

@@ -3,16 +3,16 @@ import { Client } from "./Client.entity";
 import { EmailClassification } from "./EmailClassification.entity";
 import { CampaignReceiver } from "./CampaignReceiver.entity";
 
-@Entity("campanhas")
+@Entity("campaigns")
 export class Campaign {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
     @Column({ length: 255 })
-    nome: string;
+    name: string;
 
     @Column({ length: 50 })
-    tipo: string;
+    type: string;
 
     @ManyToOne(() => Client, client => client.campaigns)
     client: Client;
@@ -27,6 +27,6 @@ export class Campaign {
     classifications: EmailClassification[];
 
     @OneToMany(() => CampaignReceiver, campaignReceiver => campaignReceiver.campaign)
-    campaignReceivers: CampaignReceiver[];
+    campaign_receivers: CampaignReceiver[];
 }
 

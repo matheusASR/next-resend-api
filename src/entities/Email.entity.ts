@@ -8,13 +8,13 @@ export class Email {
     id: number;
 
     @Column({ length: 255 })
-    titulo: string;
+    title: string;
 
     @Column("text")
-    corpo: string;
+    body: string;
 
     @Column("bytea", { nullable: true })
-    imagem: Buffer;
+    image: Buffer;
 
     @ManyToOne(() => EmailClassification, classification => classification.emails)
     classification: EmailClassification;

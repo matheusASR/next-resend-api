@@ -2,15 +2,15 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDate
 import { Campaign } from "./Campaign.entity";
 import { Receiver } from "./Receiver.entity";
 
-@Entity("campanha_receivers")
+@Entity("campaign_receivers")
 export class CampaignReceiver {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
-    @ManyToOne(() => Campaign, campaign => campaign.campaignReceivers)
+    @ManyToOne(() => Campaign, campaign => campaign.campaign_receivers)
     campaign: Campaign;
 
-    @ManyToOne(() => Receiver, receiver => receiver.campaignReceivers)
+    @ManyToOne(() => Receiver, receiver => receiver.campaign_receivers)
     receiver: Receiver;
 
     @CreateDateColumn({ type: 'timestamp' })

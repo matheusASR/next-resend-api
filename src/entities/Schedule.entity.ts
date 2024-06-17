@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Up
 import { Email } from "./Email.entity";
 import { Receiver } from "./Receiver.entity";
 
-@Entity("agendamentos")
+@Entity("schedules")
 export class Schedule {
     @PrimaryGeneratedColumn("increment")
     id: number;
@@ -14,16 +14,16 @@ export class Schedule {
     receiver: Receiver;
 
     @Column({ type: "date" })
-    data_envio: string;
+    send_date: string;
 
     @Column({ type: "time" })
-    hora_envio: string;
+    send_hour: string;
 
     @Column({ length: 50 })
     status: string;
 
     @Column("text", { nullable: true })
-    erro: string;
+    error: string;
 
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;

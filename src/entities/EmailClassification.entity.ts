@@ -2,13 +2,13 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDat
 import { Campaign } from "./Campaign.entity";
 import { Email } from "./Email.entity";
 
-@Entity("classificacoes_email")
+@Entity("email_classifications")
 export class EmailClassification {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
     @Column({ length: 255 })
-    nome: string;
+    name: string;
 
     @ManyToOne(() => Campaign, campaign => campaign.classifications)
     campaign: Campaign;
