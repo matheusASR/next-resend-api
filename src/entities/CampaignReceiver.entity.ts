@@ -12,10 +12,4 @@ export class CampaignReceiver {
 
     @ManyToOne(() => Receiver, receiver => receiver.campaign_receivers)
     receiver: Receiver;
-
-    @CreateDateColumn({ type: 'timestamp' })
-    create_date: Date;
-
-    @UpdateDateColumn({ type: 'timestamp' })
-    update_date: Date;
 }
