@@ -5,6 +5,7 @@ import { ISchedule, ScheduleCreate, ScheduleRepo } from "./schedule.interfaces";
 import { ISender, SenderCreate, SenderRepo } from "./sender.interfaces";
 import { IEmailClassification, EmailClassificationCreate, EmailClassificationRepo } from "./emailClassification.interfaces";
 import { IClient, ClientCreate, ClientRepo } from "./client.interfaces";
+import { IFormData } from "./formData.interfaces";
 
 export type {
   IEmail,
@@ -28,5 +29,6 @@ export type {
   IClient,
   ClientCreate,
   ClientRepo,
+  IFormData,
 };
 

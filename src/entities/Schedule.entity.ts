@@ -7,12 +7,6 @@ export class Schedule {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
-    @ManyToOne(() => Email, email => email.id)
-    email: Email;
-
-    @ManyToOne(() => Receiver, receiver => receiver.schedules)
-    receiver: Receiver;
-
     @Column({ type: "date" })
     send_date: string;
 
@@ -30,4 +24,10 @@ export class Schedule {
 
     @UpdateDateColumn({ type: 'timestamp' })
     update_date: Date;
+
+    @ManyToOne(() => Email, email => email.id)
+    email: Email;
+
+    @ManyToOne(() => Receiver, receiver => receiver.schedules)
+    receiver: Receiver;
 }

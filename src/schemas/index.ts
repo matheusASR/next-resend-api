@@ -5,6 +5,7 @@ import { campaignSchema, campaignCreateSchema } from "./campaign.schemas";
 import { emailClassificationSchema, emailClassificationCreateSchema } from "./emailClassification.schemas";
 import { scheduleSchema, scheduleCreateSchema } from "./schedule.schemas";
 import { senderSchema, senderCreateSchema } from "./sender.schemas";
+import { formDataSchema } from "./formData.schemas";
 
 export {
   emailSchema,
@@ -21,4 +22,5 @@ export {
   scheduleCreateSchema,
   senderSchema,
   senderCreateSchema,
+  formDataSchema,
 };

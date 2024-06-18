@@ -7,10 +7,10 @@ export class Email {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
-    @Column({ length: 255 })
+    @Column({ length: 255, nullable: true })
     title: string;
 
-    @Column("text")
+    @Column("text",  { nullable: true })
     body: string;
 
     @Column("bytea", { nullable: true })
@@ -19,16 +19,16 @@ export class Email {
     @Column("bytea", { nullable: true })
     html_file: Buffer;  
 
-    @ManyToOne(() => EmailClassification, classification => classification.emails)
-    classification: EmailClassification;
-
-    @ManyToOne(() => Sender, sender => sender.emails)
-    sender: Sender;
-
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;
 
     @UpdateDateColumn({ type: 'timestamp' })
     update_date: Date;
+
+    @ManyToOne(() => EmailClassification, classification => classification.emails)
+    classification: EmailClassification;
+
+    @ManyToOne(() => Sender, sender => sender.emails)
+    sender: Sender;
 }
 

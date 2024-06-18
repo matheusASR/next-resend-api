@@ -1,3 +1,3 @@
-import { emailRouter } from "./email.routers";
+import { emailRouter } from "./sendEmail.routers";
 
 export { emailRouter }

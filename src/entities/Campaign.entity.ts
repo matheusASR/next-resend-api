@@ -14,9 +14,6 @@ export class Campaign {
     @Column({ length: 50 })
     type: string;
 
-    @ManyToOne(() => Client, client => client.campaigns)
-    client: Client;
-
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;
 
@@ -28,5 +25,8 @@ export class Campaign {
 
     @OneToMany(() => CampaignReceiver, campaignReceiver => campaignReceiver.campaign)
     campaign_receivers: CampaignReceiver[];
+
+    @ManyToOne(() => Client, client => client.campaigns)
+    client: Client;
 }
 

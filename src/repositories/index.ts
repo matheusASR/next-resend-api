@@ -5,6 +5,7 @@ import clientRepository from "./client.repository";
 import emailClassificationRepository from "./emailClassification.repository";
 import receiverRepository from "./receiver.repository";
 import campaignRepository from "./campaign.repository";
+import campaignReceiverRepository from "./campaignReceiver.repository";
 
 export {
   emailRepository,
@@ -14,4 +15,5 @@ export {
   clientRepository,
   scheduleRepository,
   senderRepository,
+  campaignReceiverRepository
 };

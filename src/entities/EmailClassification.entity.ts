@@ -10,9 +10,6 @@ export class EmailClassification {
     @Column({ length: 255 })
     name: string;
 
-    @ManyToOne(() => Campaign, campaign => campaign.classifications)
-    campaign: Campaign;
-
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;
 
@@ -21,4 +18,7 @@ export class EmailClassification {
 
     @OneToMany(() => Email, email => email.classification)
     emails: Email[];
+
+    @ManyToOne(() => Campaign, campaign => campaign.classifications)
+    campaign: Campaign;
 }
