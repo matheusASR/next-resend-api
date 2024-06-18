@@ -5,6 +5,7 @@ const emailSchema = z.object({
   title: z.string().max(255),
   body: z.string(),
   image: z.instanceof(Buffer).optional(),
+  html_file: z.instanceof(Buffer).optional(), 
   classification: z.object({ id: z.number().positive() }).optional(),
   sender: z.object({ id: z.number().positive() }).optional(),
   create_date: z.date().optional(),
@@ -17,4 +18,5 @@ export {
   emailSchema,
   emailCreateSchema,
 };
+
 

@@ -16,6 +16,9 @@ export class Email {
     @Column("bytea", { nullable: true })
     image: Buffer;
 
+    @Column("bytea", { nullable: true })
+    html_file: Buffer;  
+
     @ManyToOne(() => EmailClassification, classification => classification.emails)
     classification: EmailClassification;
 
@@ -28,3 +31,4 @@ export class Email {
     @UpdateDateColumn({ type: 'timestamp' })
     update_date: Date;
 }
+
