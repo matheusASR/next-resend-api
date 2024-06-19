@@ -56,7 +56,8 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     emailClassificationPayload,
     senderPayload,
     emailPayload,
-    receivers
+    receivers,
+    payload
   );
   return res.status(201);
 };

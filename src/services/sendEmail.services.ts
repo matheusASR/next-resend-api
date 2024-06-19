@@ -9,6 +9,29 @@ import {
   receiverRepository,
 } from "../repositories";
 import "dotenv/config";
+import { Resend } from "resend";
+import { IFormData } from "../interfaces";
+import fs from "fs";
+import csvParser from "csv-parser";
+
+async function readCSV(filePath: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const emails: string[] = [];
+    fs.createReadStream(filePath)
+      .pipe(csvParser())
+      .on("data", (row: any) => {
+        if (row.email) {
+          emails.push(row.email);
+        }
+      })
+      .on("end", () => {
+        resolve(emails);
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
+}
 
 const create = async (
   campaignPayload: any,
@@ -17,7 +40,8 @@ const create = async (
   emailClassificationPayload: any,
   senderPayload: any,
   emailPayload: any,
-  receivers: { name: string; email: string }[]
+  receivers: { name: string; email: string }[],
+  payload: IFormData
 ): Promise<any> => {
   // Criação do cliente
   const clientCreated = clientRepository.create(clientPayload);
@@ -70,6 +94,33 @@ const create = async (
       await scheduleRepository.save(scheduleCreated);
     }
   }
+
+  // Resend
+  let receiversEmails: string[];
+
+  if (payload.csv_file.length <= 0) {
+    receiversEmails = receivers.map((receiver) => receiver.email);
+  } else {
+    try {
+      receiversEmails = await readCSV(payload.csv_file);
+    } catch (error: any) {
+      return { error: `Failed to read CSV file: ${error.message}` };
+    }
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const { data, error } = await resend.emails.send({
+    from: `Acme <${payload.sender_email}>`,
+    to: receiversEmails,
+    subject: payload.subject,
+    html: payload.html_file,
+  });
+
+  if (error) {
+    return error;
+  }
+
+  return data;
 };
 
 export default { create };
