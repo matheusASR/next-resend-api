@@ -5,6 +5,7 @@ import {
   ClientCreate,
   EmailClassificationCreate,
   EmailCreate,
+  IEmail,
   IFormData,
   ScheduleCreate,
   SenderCreate,
@@ -64,9 +65,8 @@ const create = async (req: Request, res: Response): Promise<Response> => {
 };
 
 const read = async (req: Request, res: Response): Promise<Response> => {
-
-
-  return res.status(200);
+  const emails: IEmail[] = await emailServices.read();
+  return res.status(200).json(emails);
 }
 
 const resend = async (req: Request, res: Response): Promise<Response> => {

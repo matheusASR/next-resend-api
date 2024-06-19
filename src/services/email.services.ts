@@ -10,7 +10,7 @@ import {
 } from "../repositories";
 import "dotenv/config";
 import { Resend } from "resend";
-import { IFormData } from "../interfaces";
+import { IEmail, IFormData } from "../interfaces";
 import fs from "fs";
 import csvParser from "csv-parser";
 
@@ -97,7 +97,9 @@ const create = async (
 };
 
 const read = async (): Promise<any> => {
+  const emails: IEmail[] | null = await emailRepository.find();
 
+  return emails;
 }
 
 const resend = async (): Promise<any> => {
