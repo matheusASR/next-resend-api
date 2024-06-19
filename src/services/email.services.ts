@@ -97,15 +97,16 @@ const create = async (
 };
 
 const read = async (): Promise<any> => {
-  const emails: IEmail[] | null = await emailRepository.find();
+  const emails: IEmail[] = await emailRepository.find({
+    relations: ["classification", "sender"],
+  });
 
   return emails;
-}
+};
 
 const resend = async (): Promise<any> => {
   // let receiversEmails: string[];
   // let payload;
-
   // if (payload.csv_file.length <= 0) {
   //   receiversEmails = receivers.map((receiver) => receiver.email);
   // } else {
@@ -115,7 +116,6 @@ const resend = async (): Promise<any> => {
   //     return { error: `Failed to read CSV file: ${error.message}` };
   //   }
   // }
-
   // const resend = new Resend(process.env.RESEND_API_KEY);
   // const { data, error } = await resend.emails.send({
   //   from: `Acme <${payload.sender_email}>`,
@@ -123,16 +123,12 @@ const resend = async (): Promise<any> => {
   //   subject: payload.subject,
   //   html: payload.html_file,
   // });
-
   // if (error) {
   //   return error;
   // }
-
   // return data;
 };
 
-const resendScheduled = async (): Promise<any> => {
-
-}
+const resendScheduled = async (): Promise<any> => {};
 
 export default { create, read, resend, resendScheduled };
