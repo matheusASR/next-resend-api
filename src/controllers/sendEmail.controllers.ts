@@ -58,7 +58,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     emailPayload,
     receivers
   );
-  return res.status(201).send("Email enviado com sucesso!");
+  return res.status(201);
 };
 
 export default { create };
