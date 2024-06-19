@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { sendEmailServices } from "../services";
+import { emailServices } from "../services";
 import {
   CampaignCreate,
   ClientCreate,
@@ -49,7 +49,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     html_file: payload.html_file,
   };
 
-  await sendEmailServices.create(
+  await emailServices.create(
     campaignPayload,
     clientPayload,
     schedulePayload,
@@ -59,8 +59,21 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     receivers,
     payload
   );
+
   return res.status(201);
 };
 
-export default { create };
+const resend = async (req: Request, res: Response): Promise<Response> => {
+
+
+  return res.status(200);
+}
+
+const resendScheduled = async (req: Request, res: Response): Promise<Response> => {
+
+
+  return res.status(200);
+}
+
+export default { create, resend, resendScheduled };
 

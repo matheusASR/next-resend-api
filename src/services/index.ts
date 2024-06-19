@@ -1,3 +1,3 @@
-import sendEmailServices from "./sendEmail.services";
+import emailServices from "./email.services";
 
-export { sendEmailServices }
+export { emailServices }

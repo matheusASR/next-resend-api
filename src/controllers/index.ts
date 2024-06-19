@@ -1,3 +1,3 @@
-import sendEmailControllers from "./sendEmail.controllers";
+import emailControllers from "./email.controllers";
 
-export { sendEmailControllers };
+export { emailControllers };

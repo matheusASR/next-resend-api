@@ -94,34 +94,39 @@ const create = async (
       await scheduleRepository.save(scheduleCreated);
     }
   }
-
-  // Resend
-  let receiversEmails: string[];
-
-  if (payload.csv_file.length <= 0) {
-    receiversEmails = receivers.map((receiver) => receiver.email);
-  } else {
-    try {
-      receiversEmails = await readCSV(payload.csv_file);
-    } catch (error: any) {
-      return { error: `Failed to read CSV file: ${error.message}` };
-    }
-  }
-
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const { data, error } = await resend.emails.send({
-    from: `Acme <${payload.sender_email}>`,
-    to: receiversEmails,
-    subject: payload.subject,
-    html: payload.html_file,
-  });
-
-  if (error) {
-    return error;
-  }
-
-  return data;
 };
 
-export default { create };
+const resend = async (): Promise<any> => {
+  // let receiversEmails: string[];
+  // let payload;
 
+  // if (payload.csv_file.length <= 0) {
+  //   receiversEmails = receivers.map((receiver) => receiver.email);
+  // } else {
+  //   try {
+  //     receiversEmails = await readCSV(payload.csv_file);
+  //   } catch (error: any) {
+  //     return { error: `Failed to read CSV file: ${error.message}` };
+  //   }
+  // }
+
+  // const resend = new Resend(process.env.RESEND_API_KEY);
+  // const { data, error } = await resend.emails.send({
+  //   from: `Acme <${payload.sender_email}>`,
+  //   to: receiversEmails,
+  //   subject: payload.subject,
+  //   html: payload.html_file,
+  // });
+
+  // if (error) {
+  //   return error;
+  // }
+
+  // return data;
+};
+
+const resendScheduled = async (): Promise<any> => {
+
+}
+
+export default { create, resend, resendScheduled };
