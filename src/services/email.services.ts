@@ -96,6 +96,10 @@ const create = async (
   }
 };
 
+const read = async (): Promise<any> => {
+
+}
+
 const resend = async (): Promise<any> => {
   // let receiversEmails: string[];
   // let payload;
@@ -129,4 +133,4 @@ const resendScheduled = async (): Promise<any> => {
 
 }
 
-export default { create, resend, resendScheduled };
+export default { create, read, resend, resendScheduled };

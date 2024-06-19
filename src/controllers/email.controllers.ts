@@ -63,6 +63,12 @@ const create = async (req: Request, res: Response): Promise<Response> => {
   return res.status(201);
 };
 
+const read = async (req: Request, res: Response): Promise<Response> => {
+
+
+  return res.status(200);
+}
+
 const resend = async (req: Request, res: Response): Promise<Response> => {
 
 
@@ -75,5 +81,5 @@ const resendScheduled = async (req: Request, res: Response): Promise<Response> =
   return res.status(200);
 }
 
-export default { create, resend, resendScheduled };
+export default { create, read, resend, resendScheduled };
 
