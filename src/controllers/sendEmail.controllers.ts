@@ -24,11 +24,14 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     status: true,
   };
 
-  const schedulePayload: ScheduleCreate = {
-    send_date: `${payload.date_year}/${payload.date_month}/${payload.date_day}`,
-    send_hour: `${payload.time_hour}:${payload.time_minute}:00`,
-    status: "",
-  };
+  let schedulePayload: ScheduleCreate | null = null;
+  if (payload.date_year.length > 0) {
+    schedulePayload = {
+      send_date: `${payload.date_year}/${payload.date_month}/${payload.date_day}`,
+      send_hour: `${payload.time_hour}:${payload.time_minute}:00`,
+      status: "Agendado",
+    };
+  }
 
   const emailClassificationPayload: EmailClassificationCreate = {
     name: payload.type,
@@ -55,7 +58,8 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     emailPayload,
     receivers
   );
-  return res.status(201);
+  return res.status(201).send("Email enviado com sucesso!");
 };
 
 export default { create };
+

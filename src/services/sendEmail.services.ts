@@ -1,11 +1,3 @@
-// import {
-//   CampaignCreate,
-//   ClientCreate,
-//   EmailClassificationCreate,
-//   EmailCreate,
-//   ScheduleCreate,
-//   SenderCreate,
-// } from "../interfaces";
 import {
   campaignRepository,
   clientRepository,
@@ -21,7 +13,7 @@ import "dotenv/config";
 const create = async (
   campaignPayload: any,
   clientPayload: any,
-  schedulePayload: any,
+  schedulePayload: any | null,
   emailClassificationPayload: any,
   senderPayload: any,
   emailPayload: any,
@@ -38,7 +30,7 @@ const create = async (
   });
   await campaignRepository.save(campaignCreated);
 
-  // Criação do classificacao de email e associação com a campanha
+  // Criação da classificação de email e associação com a campanha
   const emailClassificationCreated = emailClassificationRepository.create({
     ...emailClassificationPayload,
     campaign: campaignCreated,
@@ -68,16 +60,17 @@ const create = async (
     });
     await campaignReceiverRepository.save(campaignReceiverCreated);
 
-    // Criação do agendamento e associação com o email e o receptor
-    const scheduleCreated = scheduleRepository.create({
-      ...schedulePayload,
-      email: emailCreated,
-      receiver: receiverCreated,
-    });
-    await scheduleRepository.save(scheduleCreated);
+    // Criação do agendamento e associação com o email e o receptor, se schedulePayload não for null
+    if (schedulePayload) {
+      const scheduleCreated = scheduleRepository.create({
+        ...schedulePayload,
+        email: emailCreated,
+        receiver: receiverCreated,
+      });
+      await scheduleRepository.save(scheduleCreated);
+    }
   }
-
-  return "success";
 };
 
 export default { create };
+
