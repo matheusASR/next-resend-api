@@ -1,3 +1,4 @@
 import emailControllers from "./email.controllers";
+import scheduleControllers from "./schedule.controllers";
 
-export { emailControllers };
+export { emailControllers, scheduleControllers };

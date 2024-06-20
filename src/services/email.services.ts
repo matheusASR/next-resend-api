@@ -140,23 +140,4 @@ const resend = async (id: number): Promise<any> => {
   return data;
 };
 
-const schedule = async (id: number, payload: any): Promise<any> => {
-  const emailFound: any = await emailRepository.findOne({
-    where: { id },
-    relations: ["sender"],
-  });
-
-  for (const receiverEmail of emailFound.receivers) {
-    const receiverFound = await receiverRepository.findOne({ where: { email: receiverEmail } });
-    const scheduleCreated = scheduleRepository.create({
-      ...payload,
-      email: emailFound,
-      receiver: receiverFound,
-    });
-    await scheduleRepository.save(scheduleCreated);
-  }
-
-  return "success";
-};
-
-export default { create, read, resend, schedule };
+export default { create, read, resend };
