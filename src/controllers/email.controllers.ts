@@ -50,7 +50,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     subject: payload.subject,
   };
 
-  await emailServices.create(
+  const response = await emailServices.create(
     campaignPayload,
     clientPayload,
     schedulePayload,
@@ -60,7 +60,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     payload
   );
 
-  return res.status(201);
+  return res.status(201).json(response);
 };
 
 const read = async (req: Request, res: Response): Promise<Response> => {

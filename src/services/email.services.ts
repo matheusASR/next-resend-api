@@ -105,6 +105,8 @@ const create = async (
       await scheduleRepository.save(scheduleCreated);
     }
   }
+
+  return "success"
 };
 
 const read = async (): Promise<any> => {
