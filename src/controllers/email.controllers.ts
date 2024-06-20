@@ -28,7 +28,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
   if (payload.date_year.length > 0) {
     schedulePayload = {
       send_date: `${payload.date_year}/${payload.date_month}/${payload.date_day}`,
-      send_hour: `${payload.time_hour}:${payload.time_minute}:00`,
+      send_time: `${payload.time_hour}:${payload.time_minute}:00`,
       status: "Agendado",
     };
   }
