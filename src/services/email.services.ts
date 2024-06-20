@@ -78,7 +78,7 @@ const create = async (
   // Criação do email e associação com a classificação e o remetente
   const emailCreated = emailRepository.create({
     ...emailPayload,
-    receivers: receivers.map(receiver => receiver.email),
+    receivers: receivers.map((receiver) => receiver.email),
     classification: emailClassificationCreated,
     sender: senderCreated,
   });
@@ -116,16 +116,13 @@ const read = async (): Promise<any> => {
 };
 
 const resend = async (id: number): Promise<any> => {
-  // Encontrar o email pelo ID, incluindo o remetente
   const emailFound: any = await emailRepository.findOne({
     where: { id },
     relations: ["sender"],
   });
 
-  // Converter o conteúdo do html_file (Buffer) para string
   const htmlContent = emailFound.html_file.toString();
 
-  // Configurar e enviar o email
   const resend = new Resend(process.env.RESEND_API_KEY);
   const { data, error } = await resend.emails.send({
     from: `Acme <${emailFound.sender.alias}>`,
@@ -141,6 +138,23 @@ const resend = async (id: number): Promise<any> => {
   return data;
 };
 
-const schedule = async (): Promise<any> => {};
+const schedule = async (id: number, payload: any): Promise<any> => {
+  const emailFound: any = await emailRepository.findOne({
+    where: { id },
+    relations: ["sender"],
+  });
+
+  for (const receiverEmail of emailFound.receivers) {
+    const receiverFound = await receiverRepository.findOne({ where: { email: receiverEmail } });
+    const scheduleCreated = scheduleRepository.create({
+      ...payload,
+      email: emailFound,
+      receiver: receiverFound,
+    });
+    await scheduleRepository.save(scheduleCreated);
+  }
+
+  return "success";
+};
 
 export default { create, read, resend, schedule };

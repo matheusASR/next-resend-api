@@ -76,10 +76,11 @@ const resend = async (req: Request, res: Response): Promise<Response> => {
 }
 
 const schedule = async (req: Request, res: Response): Promise<Response> => {
+  const id: number = Number(req.params.id)
   const payload = req.body
+  const scheduleRes = await emailServices.schedule(id, payload)
 
-
-  return res.status(200);
+  return res.status(200).json(scheduleRes);
 }
 
 export default { create, read, resend, schedule };
