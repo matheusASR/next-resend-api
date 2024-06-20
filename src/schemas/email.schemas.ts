@@ -4,6 +4,7 @@ const emailSchema = z.object({
   id: z.number().positive(),
   title: z.string().max(255).optional(),
   body: z.string().optional(),
+  subject: z.string().optional(),
   image: z.instanceof(Buffer).optional(),
   html_file: z.instanceof(Buffer).optional(), 
   classification: z.object({ id: z.number().positive() }).optional(),

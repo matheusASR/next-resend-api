@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+    CreateDateColumn,
+    UpdateDateColumn
+} from "typeorm";
 import { EmailClassification } from "./EmailClassification.entity";
 import { Sender } from "./Sender.entity";
 
@@ -10,14 +17,20 @@ export class Email {
     @Column({ length: 255, nullable: true })
     title: string;
 
-    @Column("text",  { nullable: true })
+    @Column("text", { nullable: true })
     body: string;
+
+    @Column("text", { nullable: true })
+    subject: string;
 
     @Column("bytea", { nullable: true })
     image: Buffer;
 
     @Column("bytea", { nullable: true })
-    html_file: Buffer;  
+    html_file: Buffer;
+    
+    @Column("simple-array")
+    receivers: string[];
 
     @CreateDateColumn({ type: 'timestamp' })
     create_date: Date;
@@ -31,4 +44,5 @@ export class Email {
     @ManyToOne(() => Sender, sender => sender.emails)
     sender: Sender;
 }
+
 

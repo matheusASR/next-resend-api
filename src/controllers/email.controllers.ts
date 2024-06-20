@@ -13,7 +13,6 @@ import {
 
 const create = async (req: Request, res: Response): Promise<Response> => {
   const payload: IFormData = req.body;
-  const receivers = payload.receivers;
 
   const campaignPayload: CampaignCreate = {
     name: payload.campaign_name,
@@ -48,6 +47,7 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     body: payload.body,
     image: payload.image,
     html_file: payload.html_file,
+    subject: payload.subject,
   };
 
   await emailServices.create(
@@ -57,7 +57,6 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     emailClassificationPayload,
     senderPayload,
     emailPayload,
-    receivers,
     payload
   );
 
@@ -70,16 +69,18 @@ const read = async (req: Request, res: Response): Promise<Response> => {
 }
 
 const resend = async (req: Request, res: Response): Promise<Response> => {
+  const id: number = Number(req.params.id)
+  const resendRes = await emailServices.resend(id)
+
+  return res.status(200).json(resendRes);
+}
+
+const schedule = async (req: Request, res: Response): Promise<Response> => {
+  const payload = req.body
 
 
   return res.status(200);
 }
 
-const resendScheduled = async (req: Request, res: Response): Promise<Response> => {
-
-
-  return res.status(200);
-}
-
-export default { create, read, resend, resendScheduled };
+export default { create, read, resend, schedule };
 

@@ -14,24 +14,23 @@ import { IEmail, IFormData } from "../interfaces";
 import fs from "fs";
 import csvParser from "csv-parser";
 
-async function readCSV(filePath: string): Promise<string[]> {
+// Função para ler o arquivo CSV e retornar um array de objetos
+const readCSVFile = (
+  filePath: string
+): Promise<{ name: string; email: string }[]> => {
   return new Promise((resolve, reject) => {
-    const emails: string[] = [];
+    const results: { name: string; email: string }[] = [];
     fs.createReadStream(filePath)
       .pipe(csvParser())
-      .on("data", (row: any) => {
-        if (row.email) {
-          emails.push(row.email);
-        }
-      })
+      .on("data", (data) => results.push(data))
       .on("end", () => {
-        resolve(emails);
+        resolve(results);
       })
       .on("error", (error) => {
         reject(error);
       });
   });
-}
+};
 
 const create = async (
   campaignPayload: any,
@@ -40,7 +39,6 @@ const create = async (
   emailClassificationPayload: any,
   senderPayload: any,
   emailPayload: any,
-  receivers: { name: string; email: string }[],
   payload: IFormData
 ): Promise<any> => {
   // Criação do cliente
@@ -65,9 +63,22 @@ const create = async (
   const senderCreated = senderRepository.create(senderPayload);
   await senderRepository.save(senderCreated);
 
+  let receivers = payload.receivers;
+
+  // Se não houver receptores no payload, ler do arquivo CSV
+  if (receivers.length === 0 && payload.csv_file) {
+    try {
+      receivers = await readCSVFile(payload.csv_file);
+    } catch (error) {
+      console.error("Erro ao ler o arquivo CSV:", error);
+      throw new Error("Erro ao ler o arquivo CSV");
+    }
+  }
+
   // Criação do email e associação com a classificação e o remetente
   const emailCreated = emailRepository.create({
     ...emailPayload,
+    receivers: receivers.map(receiver => receiver.email),
     classification: emailClassificationCreated,
     sender: senderCreated,
   });
@@ -104,31 +115,32 @@ const read = async (): Promise<any> => {
   return emails;
 };
 
-const resend = async (): Promise<any> => {
-  // let receiversEmails: string[];
-  // let payload;
-  // if (payload.csv_file.length <= 0) {
-  //   receiversEmails = receivers.map((receiver) => receiver.email);
-  // } else {
-  //   try {
-  //     receiversEmails = await readCSV(payload.csv_file);
-  //   } catch (error: any) {
-  //     return { error: `Failed to read CSV file: ${error.message}` };
-  //   }
-  // }
-  // const resend = new Resend(process.env.RESEND_API_KEY);
-  // const { data, error } = await resend.emails.send({
-  //   from: `Acme <${payload.sender_email}>`,
-  //   to: receiversEmails,
-  //   subject: payload.subject,
-  //   html: payload.html_file,
-  // });
-  // if (error) {
-  //   return error;
-  // }
-  // return data;
+const resend = async (id: number): Promise<any> => {
+  // Encontrar o email pelo ID, incluindo o remetente
+  const emailFound: any = await emailRepository.findOne({
+    where: { id },
+    relations: ["sender"],
+  });
+
+  // Converter o conteúdo do html_file (Buffer) para string
+  const htmlContent = emailFound.html_file.toString();
+
+  // Configurar e enviar o email
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const { data, error } = await resend.emails.send({
+    from: `Acme <${emailFound.sender.alias}>`,
+    to: emailFound.receivers,
+    subject: emailFound.subject,
+    html: htmlContent,
+  });
+
+  if (error) {
+    return error;
+  }
+
+  return data;
 };
 
-const resendScheduled = async (): Promise<any> => {};
+const schedule = async (): Promise<any> => {};
 
-export default { create, read, resend, resendScheduled };
+export default { create, read, resend, schedule };
