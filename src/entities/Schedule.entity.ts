@@ -11,7 +11,7 @@ export class Schedule {
     send_date: string;
 
     @Column({ type: "time" })
-    send_hour: string;
+    send_time: string;
 
     @Column({ length: 50 })
     status: string;
